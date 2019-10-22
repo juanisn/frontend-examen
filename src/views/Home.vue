@@ -48,7 +48,12 @@
 
               </v-subheader>
             </v-col>
+            <v-col md="6" class="text-end">
 
+              <menu-order :orders="orders" @selectedOrder="selectedOrder" />
+
+
+            </v-col>
           </v-row>
 
                <v-row align="center" justify="center">
@@ -85,15 +90,29 @@
 <script>
 import Card from '@/components/Card.vue';
 import TaskItem from '@/components/TaskItem.vue';
+import MenuOrder from '@/components/MenuOrder.vue';
 import axios from 'axios';
 
 const baseTareas = "http://localhost:3000/todos"
 const basePriori = "http://localhost:3000/prioridades"
 
+const orders = [
+  {
+    value: 'descripcion',
+    text: 'Alfabéticamente',
+    selected: 1,
+  },
+  {
+    value: 'prioridad',
+    text: 'Por prioridad',
+    selected: 0,
+  }, 
+]
+
 export default {
   name: 'Home',
   components: {
-    Card, TaskItem
+    Card, TaskItem, MenuOrder
   },
   data(){
     return {
@@ -104,8 +123,7 @@ export default {
       filter: 'todos',
       tasks: [],
       prioridades: [],
-      orders: ['Alfabéticamente', 'Por prioridad'],
-      orderSelected: 0
+      orders
     }
   },
   methods: {
@@ -122,9 +140,30 @@ export default {
 
       this.autoincrement_id++;
       this.newTask = ''; 
+
+      this.sorting();
     },
     destroyTask(id){
-      this.tasks.splice(id, 1)
+      this.tasks.splice(id, 1);
+
+      this.sorting();
+    },
+    selectedOrder(index){
+      this.orders.forEach( item => item.selected = 0 );
+
+      this.orders[index].selected = 1;
+
+      this.sorting();
+    },
+    sorting(){
+      let compareProperty = this.orders.find(item => item.selected).value;
+
+      this.tasks = this.tasks.sort((a, b) => {
+        if(a[compareProperty] < b[compareProperty]) return -1;
+        if(b[compareProperty] < a[compareProperty]) return 1;
+
+        return 0;
+      })
     }
   },
   computed: {
@@ -147,6 +186,8 @@ export default {
 
       this.tasks = tasks.data;
       this.prioridades = priori.data;
+
+      this.sorting();
 
     } catch(e) {
       console.error('El servidor no ha respondido')

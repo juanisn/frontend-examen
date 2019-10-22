@@ -5,21 +5,21 @@
       "orden": 0,
       "completado": true,
       "descripcion": "Lavar carro",
-      "prioridad": "3"
+      "prioridad": 3
     },
     {
       "id": 2,
       "orden": 3,
       "completado": false,
       "descripcion": "Hacer compras",
-      "prioridad": "1"
+      "prioridad": 1
     },
     {
       "id": 3,
       "orden": 1,
       "completado": false,
       "descripcion": "Ir al medico",
-      "prioridad": "1"
+      "prioridad": 1
     }
   ],
   "prioridades": [
