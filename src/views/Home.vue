@@ -35,6 +35,14 @@
               </v-list-item-content>
             </v-list-item>
 
+            <v-list-item>
+              <v-list-item-content>
+                <v-btn color="teal" rounded outlined tile @click="addTask">Guardar</v-btn>
+              </v-list-item-content>
+            </v-list-item>
+
+
+
           </v-list>
 
          <v-divider></v-divider>
@@ -51,7 +59,6 @@
             <v-col md="6" class="text-end">
 
               <menu-order :orders="orders" @selectedOrder="selectedOrder" />
-
 
             </v-col>
           </v-row>
@@ -74,6 +81,7 @@
                     :task="task" 
                     :prioridades="prioridades"
                     @destroy="destroyTask"
+                    @checked="checkedTask"
                     ></task-item>
 
             <v-subheader>Quedan {{ remaining }} tareas pendientes</v-subheader>
@@ -98,13 +106,18 @@ const basePriori = "http://localhost:3000/prioridades"
 
 const orders = [
   {
-    value: 'descripcion',
-    text: 'Alfabéticamente',
+    value: 'orden',
+    text: 'Orden original',
     selected: 1,
   },
   {
+    value: 'descripcion',
+    text: 'Alfabéticamente',
+    selected: 0,
+  },
+  {
     value: 'prioridad',
-    text: 'Por prioridad',
+    text: 'Prioridad',
     selected: 0,
   }, 
 ]
@@ -134,7 +147,7 @@ export default {
         id: this.autoincrement_id,
         descripcion: this.newTask,
         prioridad: this.defaultSelected,
-        orden: 4,
+        orden: this.autoincrement_id,
         completado: false,
       })
 
@@ -147,6 +160,9 @@ export default {
       this.tasks.splice(id, 1);
 
       this.sorting();
+    },
+    checkedTask(){
+      setTimeout(_ => this.sortingCompleted(), 400)
     },
     selectedOrder(index){
       this.orders.forEach( item => item.selected = 0 );
@@ -164,7 +180,12 @@ export default {
 
         return 0;
       })
-    }
+
+      this.sortingCompleted();
+    },
+    sortingCompleted(){
+      this.tasks = this.tasks.sort((a, b) => (a.completado === b.completado)? 0 : !a.completado? -1 : 1  )
+    },
   },
   computed: {
     remaining(){

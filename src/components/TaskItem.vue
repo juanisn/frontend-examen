@@ -2,12 +2,14 @@
    <v-list-item color="primary">
      
     <v-list-item-action>
-      <v-checkbox color="teal" v-model="task.completado"></v-checkbox>
+      <v-checkbox color="teal" v-model="task.completado" @change="checked"></v-checkbox>
     </v-list-item-action>
 
     <v-list-item-content>
       <v-list-item-title>
+
         {{ task.descripcion }} 
+
         <v-chip :color="prioridad.colorbadge" x-small>{{ prioridad.text }}</v-chip>
 
       </v-list-item-title>
@@ -43,6 +45,9 @@ export default {
   methods: {
     destroy(){
       this.$emit('destroy', this.pkey)
+    },
+    checked(val){
+      this.$emit('checked', val)
     }
   },
   computed: {
