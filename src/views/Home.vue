@@ -101,9 +101,6 @@ import TaskItem from '@/components/TaskItem.vue';
 import MenuOrder from '@/components/MenuOrder.vue';
 import axios from 'axios';
 
-const baseTareas = "http://localhost:3000/todos"
-const basePriori = "http://localhost:3000/prioridades"
-
 const orders = [
   {
     value: 'orden',
@@ -201,9 +198,8 @@ export default {
   },
   async created() {
     try {
-
-      const tasks  = await axios.get(baseTareas)
-      const priori = await axios.get(basePriori)
+      const tasks  = await axios.get(`${this.baseURL}todos`)
+      const priori = await axios.get(`${this.baseURL}prioridades`)
 
       this.tasks = tasks.data;
       this.prioridades = priori.data;

@@ -7,7 +7,8 @@ Vue.config.productionTip = false
 Vue.mixin({
   data() {
     return {
-      appName: "Tareas"
+      appName: "Tareas",
+      baseURL: `${process.env.VUE_APP_API_URL}:${process.env.VUE_APP_API_PORT}/`
     }
   }
 })
