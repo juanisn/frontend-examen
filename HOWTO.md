@@ -5,7 +5,6 @@
 
 # Pasos
 
-```
 Ubicarse en la raíz del proyecto
 
 ### Instalar dependencias
