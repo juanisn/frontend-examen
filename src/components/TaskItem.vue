@@ -2,7 +2,7 @@
    <v-list-item color="primary">
      
     <v-list-item-action>
-      <v-checkbox color="teal" v-model="task.completado" @change="checked"></v-checkbox>
+      <v-checkbox class="v-checkbox" color="teal" v-model="task.completado" @change="checked"></v-checkbox>
     </v-list-item-action>
 
     <v-list-item-content>
